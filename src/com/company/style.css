@@ -1,3 +1,7 @@
 .root {
     -fx-background-color: #333333;
 }
+
+.label {
+    -fx-content-display: top;
+}
