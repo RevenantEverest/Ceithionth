@@ -3,6 +3,7 @@ package com.company;
 public class PlayerStats {
 
     private String name;
+    private String className;
 
     private int baseHealth;
     private int health;
@@ -15,8 +16,9 @@ public class PlayerStats {
     private int exp;
     private int level;
 
-    public PlayerStats(String name,int baseHealth, int health,int power, int stamina, int agility, int intellect, int exp, int level) {
+    public PlayerStats(String name, String className, int baseHealth, int health,int power, int stamina, int agility, int intellect, int exp, int level) {
      this.name = name;
+     this.className = className;
      this.baseHealth = baseHealth;
      this.health = health;
      this.power = power;
@@ -29,6 +31,7 @@ public class PlayerStats {
 
     /* Getters */
     public String getName() { return name; }
+    public String getClassName() { return className; }
     public int getBaseHealth() { return baseHealth; }
     public int getHealth() { return health; }
     public int getPower() { return power; }
@@ -41,6 +44,7 @@ public class PlayerStats {
 
     /* Setters */
     public void setName(String name) { this.name = name; }
+    public void setClassName(String className) { this.className = className; }
     public void setBaseHealth(int baseHealth) { this.baseHealth = baseHealth; }
     public void setHealth(int health) { this.health = health; }
     public void setPower(int power) { this.power = power; }
