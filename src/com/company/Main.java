@@ -68,8 +68,8 @@ public class Main extends Application{
     private Label characterStatsGold = new Label();
     private Button backToGameButton = new Button("Go Back");
 
-    private Label playerHealth;
-    private Label enemyHealth;
+    private Label playerHealth = new Label();
+    private Label enemyHealth = new Label();
     private Button heavyAttackButton = new Button("Heavy Attack");
     private Button lightAttackButton = new Button("Light Attack");
     private Button victoryButton = new Button("Victory!");
@@ -142,8 +142,11 @@ public class Main extends Application{
             System.out.println("Stamina: " + player.getStamina());
             System.out.println("Agility: " + player.getAgility());
             System.out.println("Intellect: " + player.getIntellect());
-            playerHealth = new Label(player.getName() + ": " + player.getHealth());
+            playerHealth.setText(player.getName() + ": " + player.getHealth());
             window.setScene(gameScene);
+
+            String enemyName = enemyNames[(RNG(enemyNames.length))];
+            enemy = new EnemyStats(enemyName, player.getBaseHealth(), player.getHealth(), player.getMaxHealth(), player.getPower(), player.getStamina(), player.getAgility(), player.getIntellect());
         });
 
         knightRadio.setSelected(true);
@@ -193,13 +196,17 @@ public class Main extends Application{
         fightButton.setOnAction(e -> {
             window.setScene(fightScene);
             levelUpLabel.setVisible(false);
-            String enemyName = enemyNames[(RNG(enemyNames.length))];
 
-
-            enemy = new EnemyStats(enemyName, player.getBaseHealth(), player.getHealth(), player.getPower(), player.getStamina(), player.getAgility(), player.getIntellect());
+            enemy.setName((enemyNames[RNG(enemyNames.length)]));
+            enemy.setHealth(player.getHealth());
+            enemy.setMaxHealth(player.getMaxHealth());
+            enemy.setPower(player.getPower());
+            enemy.setStamina(player.getStamina());
+            enemy.setAgility(player.getAgility());
+            enemy.setIntellect(player.getIntellect());
             System.out.println("Enemy Encountered: ");
             System.out.println("Name: " + enemy.getName());
-            enemyHealth = new Label((enemy.getName() + ": " + enemy.getHealth()));
+            enemyHealth.setText((enemy.getName() + ": " + enemy.getHealth()));
             fightLayout.getChildren().addAll(playerHealth, enemyHealth, lightAttackButton, heavyAttackButton, victoryButton, defeatButton);
         });
 
@@ -284,8 +291,21 @@ public class Main extends Application{
             }
         });
 
-        victoryButton.setOnAction(e -> window.setScene(victoryScene));
-        defeatButton.setOnAction(e -> window.setScene(defeatScene));
+        victoryButton.setOnAction(e -> {
+            playerHealth.setText((player.getName() + ": " + player.getHealth()));
+            victoryButton.setDisable(true);
+            victoryButton.setVisible(false);
+            lightAttackButton.setDisable(false);
+            heavyAttackButton.setDisable(false);
+            window.setScene(victoryScene);
+        });
+        defeatButton.setOnAction(e -> {
+            defeatButton.setDisable(true);
+            defeatButton.setVisible(false);
+            lightAttackButton.setDisable(false);
+            heavyAttackButton.setDisable(false);
+            window.setScene(gameScene);
+        });
         continueButton.setOnAction(e -> window.setScene(gameScene));
     }
 
@@ -311,6 +331,7 @@ public class Main extends Application{
     }
 
     private void victory() {
+        enemy.setHealth(enemy.getMaxHealth());
         player.setHealth(player.getMaxHealth());
 
         goldReward.setText("Gold Received: 50");
@@ -327,7 +348,8 @@ public class Main extends Application{
     }
 
     private void defeat() {
-        System.out.println("You died");
+        player.setGold((player.getGold() - 25));
+        System.out.println("You die. The Angels take 25 Gold to return you to life.");
     }
 
     private boolean checkForLevelUp() {
