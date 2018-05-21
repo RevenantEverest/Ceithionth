@@ -13,18 +13,26 @@ public class Player extends Creature {
 
     @Override
     public void update() {
+        getInput();
+        move();
+    }
+
+    private void getInput() {
+        xMove = 0;
+        yMove = 0;
+
         if(game.getKeyManager().up)
-            y -= 3;
+            yMove = -speed;
         if(game.getKeyManager().down)
-            y += 3;
+            yMove = speed;
         if(game.getKeyManager().left)
-            x -= 3;
+            xMove = -speed;
         if(game.getKeyManager().right)
-            x += 3;
+            xMove = speed;
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, (int) x, (int) y, null);
+        g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
     }
 }
