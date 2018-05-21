@@ -1,7 +1,6 @@
 package com.company;
 
 public class EnemyStats {
-
     private String name;
 
     private int baseHealth;
