@@ -1,9 +1,14 @@
 package com.company;
 
+import com.company.GFX.Assets;
+import com.company.GFX.Display;
+import com.company.States.GameState;
+import com.company.States.MenuState;
+import com.company.States.State;
+import com.company.Utils.KeyManager;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class Game implements  Runnable{
 
@@ -24,6 +29,9 @@ public class Game implements  Runnable{
     //Input
     private KeyManager keyManager;
 
+    //Camera
+    private GameCamera gameCamera;
+
     public Game(String title, int width, int height) {
         this.title = title;
         this.width = width;
@@ -35,6 +43,7 @@ public class Game implements  Runnable{
         display = new Display(title, width, height);
         display.getFrame().addKeyListener(keyManager);
         Assets.init();
+        gameCamera = new GameCamera(this, 0, 0);
 
         gameState = new GameState(this);
         menuState = new MenuState(this);
@@ -105,9 +114,12 @@ public class Game implements  Runnable{
         stop();
     }
 
-    public KeyManager getKeyManager() {
-        return keyManager;
-    }
+    //Getters
+    public KeyManager getKeyManager() { return keyManager; }
+    public GameCamera getGameCamera() { return gameCamera; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+    /* END */
 
     public synchronized void start() {
         if(running) return;
