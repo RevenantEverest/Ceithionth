@@ -3,39 +3,40 @@ package com.company.Entity;
 import com.company.Entity.Creature;
 import com.company.GFX.Assets;
 import com.company.Game;
+import com.company.Handler;
 
 import java.awt.Graphics;
 
 public class Player extends Creature {
 
-    public Player(Game game, float x, float y) {
-        super(game, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public Player(Handler handler, float x, float y) {
+        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
     }
 
     @Override
     public void update() {
         getInput();
         move();
-        game.getGameCamera().centerOnEntity(this);
+        handler.getGameCamera().centerOnEntity(this);
     }
 
     private void getInput() {
         xMove = 0;
         yMove = 0;
 
-        if(game.getKeyManager().up)
+        if(handler.getKeyManager().up)
             yMove = -speed;
-        if(game.getKeyManager().down)
+        if(handler.getKeyManager().down)
             yMove = speed;
-        if(game.getKeyManager().left)
+        if(handler.getKeyManager().left)
             xMove = -speed;
-        if(game.getKeyManager().right)
+        if(handler.getKeyManager().right)
             xMove = speed;
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, (int) (x - game.getGameCamera().getXOffset()),
-                                            (int) (y - game.getGameCamera().getYOffset()), width, height, null);
+        g.drawImage(Assets.player, (int) (x - handler.getGameCamera().getXOffset()),
+                (int) (y - handler.getGameCamera().getYOffset()), width, height, null);
     }
 }

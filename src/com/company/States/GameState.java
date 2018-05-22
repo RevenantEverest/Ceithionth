@@ -3,6 +3,7 @@ package com.company.States;
 import com.company.Game;
 import com.company.GFX.Map;
 import com.company.Entity.Player;
+import com.company.Handler;
 
 import java.awt.Graphics;
 
@@ -11,10 +12,12 @@ public class GameState extends State {
     private Player player;
     private Map map;
 
-    public GameState(Game game) {
-        super(game);
-        player = new Player(game, 100, 100);
-        map = new Map(game, "res/maps/map1.txt");
+    public GameState(Handler handler) {
+        super(handler);
+        map = new Map(handler, "res/maps/map1.txt");
+        handler.setMap(map);
+        player = new Player(handler, 100, 100);
+
     }
 
     @Override

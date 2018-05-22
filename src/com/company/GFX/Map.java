@@ -1,19 +1,20 @@
 package com.company.GFX;
 
 import com.company.Game;
+import com.company.Handler;
 import com.company.Utils.Utils;
 
 import java.awt.Graphics;
 
 public class Map {
 
-    private Game game;
+    private Handler handler;
     private int width, height;
     private int spawnX, spawnY;
     private int[][] tiles;
 
-    public Map(Game game, String path) {
-        this.game = game;
+    public Map(Handler handler, String path) {
+        this.handler = handler;
         loadMap(path);
     }
 
@@ -22,10 +23,15 @@ public class Map {
     }
 
     public void render(Graphics g) {
-        for(int y  = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                getTile(x, y).render(g, (int) (x * Tile.TILE_WIDTH - game.getGameCamera().getXOffset()),
-                        (int) (y * Tile.TILE_HEIGHT - game.getGameCamera().getYOffset()));
+        int xStart = (int) Math.max(0, handler.getGameCamera().getXOffset() / Tile.TILE_WIDTH);
+        int xEnd = (int) Math.min(width, (handler.getGameCamera().getXOffset() + handler.getWidth()) / Tile.TILE_WIDTH + 1);
+        int yStart = (int) Math.max(0, handler.getGameCamera().getYOffset() / Tile.TILE_HEIGHT);
+        int yEnd = (int) Math.min(height, (handler.getGameCamera().getYOffset() + handler.getHeight()) / Tile.TILE_HEIGHT  + 1);
+
+        for(int y  = yStart; y < yEnd; y++) {
+            for(int x = xStart; x < xEnd; x++) {
+                getTile(x, y).render(g, (int) (x * Tile.TILE_WIDTH - handler.getGameCamera().getXOffset()),
+                        (int) (y * Tile.TILE_HEIGHT - handler.getGameCamera().getYOffset()));
             }
         }
     }
